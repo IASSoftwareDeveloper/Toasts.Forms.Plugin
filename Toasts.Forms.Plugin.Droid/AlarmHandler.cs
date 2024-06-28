@@ -7,7 +7,7 @@ using Android.Graphics;
 
 namespace Plugin.Toasts
 {
-    [BroadcastReceiver(Enabled = true, Label = "Toasts Broadcast Receiver")]
+    [BroadcastReceiver(Enabled = true , Label = "Toasts Broadcast Receiver",Exported=true)]
     public class AlarmHandler : BroadcastReceiver
     {
         public const string NotificationKey = "LocalNotification";
@@ -38,7 +38,7 @@ namespace Plugin.Toasts
                 var clickIntent = new Intent(NotificationBuilder.OnClickIntent);
                 clickIntent.PutExtra(NotificationBuilder.NotificationId, int.Parse(id));
                 clickIntent.PutExtra(NotificationBuilder.NotificationForceOpenApp, options.AndroidOptions.ForceOpenAppOnNotificationTap);
-                var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (NotificationBuilder.StartId + int.Parse(id)), clickIntent, 0);
+                var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (NotificationBuilder.StartId + int.Parse(id)), clickIntent, Android.App.PendingIntentFlags.Immutable);
                 builder.SetContentIntent(pendingClickIntent);
             }
 

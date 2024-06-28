@@ -43,7 +43,7 @@ namespace Plugin.Toasts
 
             _receiver = new NotificationReceiver();
 
-            Application.Context.RegisterReceiver(_receiver, filter);
+            Application.Context.RegisterReceiver(_receiver, filter,(ActivityFlags)4);
 
             _androidOptions = androidOptions;
         }
@@ -193,7 +193,7 @@ namespace Plugin.Toasts
                 var dismissIntent = new Intent(DismissedClickIntent);
                 dismissIntent.PutExtra(NotificationId, notificationId);
 
-                var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), dismissIntent, 0);
+                var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), dismissIntent, Android.App.PendingIntentFlags.Immutable);
 
                 var clickIntent = new Intent(OnClickIntent);
                 clickIntent.PutExtra(NotificationId, notificationId);
@@ -204,7 +204,7 @@ namespace Plugin.Toasts
                     foreach (var arg in options.CustomArgs)
                         clickIntent.PutExtra(arg.Key, arg.Value);
 
-                var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), clickIntent, 0);
+                var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), clickIntent, Android.App.PendingIntentFlags.Immutable);
 
                 if (!string.IsNullOrEmpty(options.AndroidOptions.HexColor) && options.AndroidOptions.HexColor.Substring(0, 1) != "#")
                 {
